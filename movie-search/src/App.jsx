@@ -6,9 +6,11 @@ import Pagination from './components/Pagination';
 function App() {
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState(''); 
-  
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     const getMovies = async () => {
@@ -16,19 +18,22 @@ function App() {
       setError(null);
       
       try {
-        const response = await fetch(`https://www.omdbapi.com/?apikey=62aede51&s=${query}`);
+        const response = await fetch(`https://www.omdbapi.com/?apikey=62aede51&s=${query}&page=${page}`);
         const data = await response.json();
         
         if (data.Response === "True") {
           setMovies(data.Search);
+          setTotalPages(Math.ceil(data.totalResults / 10));
         } else {
           setMovies([]); 
-          setError(data.Error === "Movie not found!" ? "Belə bir film tapılmadı " : data.Error);
+          setTotalPages(0);
+          setError(data.Error === "Movie not found!" ? "Belə bir film tapılmadı 😔" : data.Error);
         }
       } catch (err) {
         console.log("Xəta baş verdi: ", err); 
-        setError("Şəbəkə xətası baş verdi. İnternet bağlantınızı yoxlayın!");
+        setError("Şəbəkə xətası baş verdi. İnternet bağlantınızı yoxlayın! 🌐");
         setMovies([]);
+        setTotalPages(0);
       } finally {
         setIsLoading(false);
       }
@@ -41,6 +46,7 @@ function App() {
         setMovies([]);
         setError(null);
         setIsLoading(false);
+        setTotalPages(0);
       }
     }, 500); 
 
@@ -48,7 +54,7 @@ function App() {
       clearTimeout(timerId);
     };
 
-  }, [query]); 
+  }, [query, page]); 
 
   return (
     <div className="app-container">
@@ -58,7 +64,7 @@ function App() {
       </header>
       
       <main>
-        <SearchBar query={query} setQuery={setQuery} />
+        <SearchBar query={query} setQuery={setQuery} setPage={setPage} />
         
         {isLoading && <div className="state-message">Axtarılır... ⏳</div>}
         
@@ -69,10 +75,11 @@ function App() {
         )}
 
         {!isLoading && !error && movies.length > 0 && (
-          <ResultsList movies={movies} />
+          <>
+            <ResultsList movies={movies} />
+            <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+          </>
         )}
-        
-        <Pagination />
       </main>
     </div>
   );

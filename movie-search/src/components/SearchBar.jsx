@@ -1,7 +1,12 @@
 import React from 'react';
 
 function SearchBar(props) {
-  const { query, setQuery } = props;
+  const { query, setQuery, setPage } = props;
+
+  const handleChange = (e) => {
+    setQuery(e.target.value);
+    setPage(1);
+  };
 
   return (
     <div className="search-container">
@@ -10,7 +15,7 @@ function SearchBar(props) {
         className="search-input"
         placeholder="Film axtar (məs: Avengers)..." 
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={handleChange}
       />
     </div>
   );
