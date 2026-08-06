@@ -1,16 +1,48 @@
-# React + Vite
+🎬 Movie Search (Kino Axtarış) Tətbiqi
+OMDb (Open Movie Database) API inteqrasiyası ilə filmlərin axtarılması, nəticələrin kart formasında nümayiş etdirilməsi və səhifələnməsini (Pagination) təmin edən müasir React tətbiqi.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🚀 Texnologiya Steki
+React 19 (v19.2.8) - UI komponentlərinin qurulması və vəziyyət idarəetməsi
+Vite 8 (v8.2.0) - Sürətli tərtibat və modulların toplanması
+JavaScript (ES6+) - Tətbiqin məntiqi və asynchronous API sorğuları
+Vanilla CSS - Grid layout və responsiv dizayn
+ESLint 10 - Kod keyfiyyəti və standartlaşdırma
+📁 Layihə Strukturu və Fayl Arxitekturası
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+movie-search/
+├── index.html
+├── package.json
+├── vite.config.js
+├── eslint.config.js
+├── README.md
+└── src/
+    ├── main.jsx
+    ├── App.jsx
+    ├── index.css
+    ├── hooks/
+    │   └── useFetch.js
+    └── components/
+        ├── SearchBar.jsx
+        ├── Card.jsx
+        ├── ResultsList.jsx
+        └── Pagination.jsx
+Faylların Təyinatı:
+App.jsx
+: Əsas konteyner komponenti (query və page state-lərini saxlayır və UI vəziyyətlərini idarə edir).
+useFetch.js
+: API inteqrasiyası üçün Custom React Hook. Debouncing (500ms) və AbortController istifadə edir.
+SearchBar.jsx
+: Film adının daxil edilməsi üçün axtarış sahəsi.
+Card.jsx
+: Filmin posteri, adı və ilini göstərən kart komponenti (Poster olmadıqda fallback şəkil nümayiş etdirir).
+ResultsList.jsx
+: Filmləri CSS Grid daxilində nümayiş etdirən komponent.
+Pagination.jsx
+: Səhifələr arası keçid idarəetməsi.
+index.css
+: Responsiv dizayn və tətbiqin ümumi CSS stilləri.
+⚡ Əsas Texniki Xüsusiyyətlər
+Debouncing (500ms): Axtarış zamanı serverə həddən artıq sorğu göndərilməsinin qarşısını almaq üçün keyup gecikməsi.
+AbortController: Yeni axtarış başladıqda əvvəlki işləyən sorğunun ləğv edilməsi (Race condition qoruması).
+UI Status İdarəetməsi: Yüklənmə (isLoading), Xəta (error) və Boş nəticə hallarının aydın vizual nümayişi.
+Fallback Image: Film posteri mövcud olmadıqda (N/A) alternativ şəkildən istifadə.
