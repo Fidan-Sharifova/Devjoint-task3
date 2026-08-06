@@ -1,9 +1,19 @@
-import React from 'react'
+import React from 'react';
 
-const SearchBar = () => {
+function SearchBar(props) {
+  const { query, setQuery } = props;
+
   return (
-    <div>SearchBar</div>
-  )
+    <div className="search-container">
+      <input 
+        type="text" 
+        className="search-input"
+        placeholder="Film axtar (məs: Avengers)..." 
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
+    </div>
+  );
 }
 
-export default SearchBar
+export default SearchBar;

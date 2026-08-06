@@ -1,9 +1,20 @@
-import React from 'react'
+import React from 'react';
+import Card from './Card';
 
-const ResultsList = () => {
+function ResultsList(props) {
+  const { movies } = props;
+
+  if (!movies || movies.length === 0) {
+    return null; 
+  }
+
   return (
-    <div>ResultsList</div>
-  )
+    <div className="results-grid">
+      {movies.map((movie) => (
+        <Card key={movie.imdbID} movie={movie} />
+      ))}
+    </div>
+  );
 }
 
-export default ResultsList
+export default ResultsList;
